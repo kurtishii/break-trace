@@ -1,15 +1,17 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Session, User } from '@supabase/supabase-js';
 import { SupabaseService } from './supabase.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private supabase = new SupabaseService();
+  private supabase = inject(SupabaseService);
+  private router = inject(Router);
+
   readonly session = signal<Session | null>(null);
   readonly user = signal<User | null>(null);
 
-  constructor(private router: Router) {
+  constructor() {
     this.supabase.client.auth.getSession().then(({ data }) => {
       this.session.set(data.session);
       this.user.set(data.session?.user ?? null);
