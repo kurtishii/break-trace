@@ -31,15 +31,10 @@ export interface WitronBewegung {
 }
 
 export interface WitronColumnMapping {
-  artikel_ean: string;
-  artikel_name: string;
-  artikelpreis: string;
-  ort_id: string;
-  menge: string;
-  auftrag_nummer: string;
-  bewegungsart: string;
-  zeitstempel: string;
-  anlagenstoerung?: string;
+  id?: number;
+  feld_intern: string;
+  spalte_excel: string;
+  aktiv: boolean;
 }
 
 export interface Alarmregel {

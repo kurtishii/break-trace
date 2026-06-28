@@ -123,7 +123,7 @@ import { BruchmeldungService } from '../../core/services/bruchmeldung.service';
           <h3 class="text-sm font-semibold text-gray-700">Bruchwert nach Ort</h3>
         </div>
         <div class="p-5 space-y-3">
-          @for (o of svc.ortRanking().filter(o => o.wert > 0).slice(0, 15); track o.ort_id) {
+          @for (o of orteNachWert(); track o.ort_id) {
             <div class="flex items-center gap-3">
               <span class="text-sm font-medium text-gray-700 w-24 truncate">{{ o.ort_id }}</span>
               <div class="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
@@ -136,7 +136,7 @@ import { BruchmeldungService } from '../../core/services/bruchmeldung.service';
               </span>
             </div>
           }
-          @if (!svc.loading() && svc.ortRanking().filter(o => o.wert > 0).length === 0) {
+          @if (!svc.loading() && orteNachWert().length === 0) {
             <p class="text-center text-gray-400 py-8">Keine Orte mit Preisdaten</p>
           }
         </div>
@@ -166,6 +166,10 @@ export class KostenComponent {
     const m = this.svc.gesamtMenge();
     return m > 0 ? this.svc.gesamtWert() / m : 0;
   });
+
+  readonly orteNachWert = computed(() =>
+    this.svc.ortRanking().filter(o => o.wert > 0).slice(0, 15)
+  );
 
   readonly rangVergleich = computed(() => {
     const nachMenge = this.svc.artikelRanking();
